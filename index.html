@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine? ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{height:100vh;overflow:hidden;background:linear-gradient(-45deg,#ff4e88,#ff6ec4,#ff99ac,#ffd1dc);background-size:400% 400%;animation:gradientBG 12s ease infinite;display:flex;justify-content:center;align-items:center;text-align:center;color:white;}
+@keyframes gradientBG{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.container{background:rgba(255,255,255,0.12);padding:50px;border-radius:25px;backdrop-filter:blur(20px);box-shadow:0 0 50px rgba(255,0,128,.6);width:90%;max-width:520px;position:relative;}
+h1{font-size:30px;margin-bottom:20px}
+.message{font-size:18px;margin-bottom:30px;min-height:40px}
+button{padding:12px 30px;margin:10px;border:none;border-radius:30px;font-size:16px;cursor:pointer;transition:.3s ease;}
+#yesBtn{background:#ff2e63;color:white;box-shadow:0 0 20px #ff2e63}
+#noBtn{background:white;color:#ff2e63;position:absolute}
+.heart{position:absolute;width:20px;height:20px;background:red;transform:rotate(45deg);animation:float 6s linear infinite;}
+.heart::before,.heart::after{content:"";position:absolute;width:20px;height:20px;background:red;border-radius:50%;}
+.heart::before{top:-10px;left:0}
+.heart::after{left:-10px;top:0}
+@keyframes float{0%{bottom:-20px;opacity:0}50%{opacity:1}100%{bottom:100%;opacity:0}}
+.firework{position:absolute;width:6px;height:6px;border-radius:50%;animation:explode 1s ease-out forwards;}
+@keyframes explode{to{transform:translate(var(--x),var(--y));opacity:0;}}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Will You Be My Valentine? ❤️</h1>
+<div class="message" id="msg">I have something very special to ask you...</div>
+<button id="yesBtn">YES 💖</button>
+<button id="noBtn">NO 😢</button>
+</div>
+
+<script>
+const noBtn=document.getElementById("noBtn");
+const yesBtn=document.getElementById("yesBtn");
+const msg=document.getElementById("msg");
+
+const noTexts=[];
+const starters=["Are you really sure","Do you truly feel","Is that really your decision","Are you absolutely certain","Is your heart saying this","Do you mean that","Are you serious right now","Did you think carefully","Is that what your heart wants","Are you confident about this"];
+const middles=["I don’t deserve your love","you don’t love me","you want to break my heart","you want to say no to us","you don’t feel anything for me","I should give up","this is the end of my love story","I should stop trying","you want me to be sad","you don’t want my heart"];
+const endings=["🥺","💔","😭","😢","💘","🥲","❤️","😞","😔","💖"];
+
+for(let i=0;i<300;i++){
+let s=starters[Math.floor(Math.random()*starters.length)];
+let m=middles[Math.floor(Math.random()*middles.length)];
+let e=endings[Math.floor(Math.random()*endings.length)];
+noTexts.push(s+" that "+m+"? "+e);
+}
+
+let noCount=0;
+let yesScale=1;
+
+noBtn.addEventListener("click",()=>{
+msg.innerText=noTexts[noCount%noTexts.length];
+noCount++;
+const maxX=window.innerWidth-noBtn.offsetWidth;
+const maxY=window.innerHeight-noBtn.offsetHeight;
+noBtn.style.left=Math.random()*maxX+"px";
+noBtn.style.top=Math.random()*maxY+"px";
+yesScale+=0.1;
+yesBtn.style.transform="scale("+yesScale+")";
+});
+
+yesBtn.addEventListener("click",()=>{
+msg.innerHTML="I KNEW IT!!! 💖 You're officially my Valentine 😍";
+launchFireworks();
+});
+
+function launchFireworks(){for(let i=0;i<8;i++){setTimeout(()=>createFirework(),i*400);}}
+function createFirework(){
+const x=window.innerWidth*Math.random();
+const y=window.innerHeight*Math.random()/2;
+for(let i=0;i<40;i++){
+const p=document.createElement("div");
+p.className="firework";
+p.style.background=`hsl(${Math.random()*360},100%,50%)`;
+p.style.left=x+"px";
+p.style.top=y+"px";
+p.style.setProperty('--x',(Math.random()*200-100)+'px');
+p.style.setProperty('--y',(Math.random()*200-100)+'px');
+document.body.appendChild(p);
+setTimeout(()=>p.remove(),1000);
+}}
+
+setInterval(()=>{
+const heart=document.createElement("div");
+heart.classList.add("heart");
+heart.style.left=Math.random()*100+"vw";
+heart.style.animationDuration=(Math.random()*3+3)+"s";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),6000);
+},300);
+</script>
+</body>
+</html>
